@@ -55,9 +55,12 @@ export default defineComponent({
         const value = event.target.value;
         const newValue = value === "" ? undefined : Number(value);
         
-        if (value === "-" || value === "+") {
+        //+-.+.-.等符号均会被视为数值类型的一种，只是不会导致更新值，也不会限制输入。
+        //仅限于完全匹配情况下。
+        if (/^([+-]?\.?(?!\.))$/.test(value) && value) {
           return;
         }
+
         if (!isNaN(newValue) || value === "") {
           setValue(newValue);
         } else {
